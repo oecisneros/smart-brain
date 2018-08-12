@@ -121,7 +121,7 @@ class App extends Component {
               loadUser={this.loadUser}
               onRouteChange={this.onRouteChange}
             />
-          )
+          )          
         }[this.state.route]
       }
     </div>
