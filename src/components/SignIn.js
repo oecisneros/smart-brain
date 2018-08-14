@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { onPropertyChange } from "../core/common";
+import { onPropertyChange, getSession, saveSession } from "../core/common";
 import * as api from "../core/smart-brain-api";
 
 class SignIn extends Component {
@@ -11,6 +11,22 @@ class SignIn extends Component {
         };
     }
 
+    componentDidMount = () => this.loadUserFromSession();
+
+    loadUserFromSession = () => {
+        const session = getSession();
+        if (session && session.id) {
+            api.getProfile(session.id)
+                .then(user => {
+                    if (user && user.id) {
+                        this.props.loadUser(user);
+                        this.props.onRouteChange("home");
+                    }
+                })
+                .catch(alert);
+        }
+    };
+
     onSignIn = () => {
         const credentials = {
             email: this.state.email,
@@ -18,10 +34,10 @@ class SignIn extends Component {
         };
 
         api.signIn(credentials)
-            .then(user => {
-                if (user.id) {
-                    this.props.loadUser(user);
-                    this.props.onRouteChange("home");
+            .then(session => {
+                if (session && session.success === true) {
+                    saveSession(session);
+                    this.loadUserFromSession();
                 }
             })
             .catch(alert);
@@ -45,7 +61,7 @@ class SignIn extends Component {
                                 className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
                                 type="email"
                                 name="email"
-                                id="email"                                
+                                id="email"
                                 onChange={onPropertyChange(this)}
                             />
                         </div>
@@ -71,13 +87,6 @@ class SignIn extends Component {
                             value="Sign in"
                             onClick={this.onSignIn}
                         />
-                    </div>
-                    <div className="lh-copy mt3">
-                        <p
-                            onClick={() => this.props.onRouteChange("register")}
-                            className="f6 link dim black db pointer">
-                            Register
-                        </p>
                     </div>
                 </div>
             </main>

@@ -1,3 +1,5 @@
+import { getSession } from "./common";
+
 const apiUrl = "http://localhost:3001";
 
 const handleResponse = response => {
@@ -11,20 +13,30 @@ const handleResponse = response => {
 };
 
 export const fetchJson = (url, request, method = "POST") => {
-    const body = {
+    const session = getSession() || {};
+    const requestData = {
         method: method,
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify(request)
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": session.token
+        }
     };
 
-    return fetch(url, body)
-        .then(handleResponse);
+    if (request) {
+        requestData.body = JSON.stringify(request);
+    }
+
+    return fetch(url, requestData).then(handleResponse);
 };
 
 export const predict = imageUrl => fetchJson(`${apiUrl}/predict`, { input: imageUrl });
 
-export const updateProfile = id => fetchJson(`${apiUrl}/image`, { id }, "PUT")
-
-export const registerUser = userInfo => fetchJson(`${apiUrl}/register`, userInfo);
+export const registerUser = user => fetchJson(`${apiUrl}/register`, user);
 
 export const signIn = credentials => fetchJson(`${apiUrl}/signin`, credentials);
+
+export const updateImage = id => fetchJson(`${apiUrl}/image`, { id }, "PUT");
+
+export const getProfile = id => fetchJson(`${apiUrl}/profile/${id}`, null, "GET");
+
+export const updateProfile = profile => fetchJson(`${apiUrl}/profile/${profile.id}`, { inputForm: profile }, "PUT");

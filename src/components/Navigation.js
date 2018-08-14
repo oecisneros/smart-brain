@@ -1,21 +1,19 @@
 import React from "react";
 import ProfileIcon from "./ProfileIcon"
 
-const Navigation = ({ onRouteChange, isSigned }) => {
-    if (isSigned) {
-        return (
-            <ProfileIcon onRouteChange={onRouteChange} />
-        );
+const Navigation = (props) => {
+    if (props.isSigned) {
+        return <ProfileIcon {...props} />;
     } else {
         return (
-            <nav>
+            <nav className="nav">
                 <p
-                    onClick={() => onRouteChange("signin")}
+                    onClick={() => props.onRouteChange("signin")}
                     className="f3 link dim black underline pa3 pointer">
                     Sign In
                 </p>
                 <p
-                    onClick={() => onRouteChange("register")}
+                    onClick={() => props.onRouteChange("register")}
                     className="f3 link dim black underline pa3 pointer">
                     Register
                 </p>

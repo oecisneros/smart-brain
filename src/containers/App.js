@@ -16,6 +16,7 @@ const initialState = {
   route: "signin",
   isSigned: false,
   user: {
+    id: 0,
     name: "",
     email: "",
     entries: 0,
@@ -57,7 +58,7 @@ class App extends Component {
     api.predict(this.state.imageSource)
       .then(calculateRegions)
       .then(displayBox)
-      .then(api.updateProfile.bind(null, this.state.user.id))
+      .then(api.updateImage.bind(null, this.state.user.id))
       .then(updateState)
       .catch(alert);
   };
@@ -93,6 +94,8 @@ class App extends Component {
       <Navigation
         isSigned={this.state.isSigned}
         onRouteChange={this.onRouteChange}
+        user={this.state.user}
+        loadUser={this.loadUser}
       />
       {
         {
@@ -121,7 +124,7 @@ class App extends Component {
               loadUser={this.loadUser}
               onRouteChange={this.onRouteChange}
             />
-          )          
+          )
         }[this.state.route]
       }
     </div>

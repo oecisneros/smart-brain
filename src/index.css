@@ -40,7 +40,8 @@ body {
     cursor: pointer;
 }
 
-nav {
+.nav {
     display: flex;
     justify-content: flex-end;
+    padding: 5px;
 }
