@@ -3,12 +3,20 @@ import ReactDOM from "react-dom";
 
 export const pipe = (...fns) => x => fns.reduce((v, f) => f(v), x);
 
+/*eslint no-extend-native: ["error", { "exceptions": ["Function"] }]*/
+Function.prototype.close = function () {
+    const fn = this, args = Array.prototype.slice.call(arguments);
+    return function () {
+        return fn.apply(this, args);
+    };
+};
+
 export const clearSession = () =>
     sessionStorage.removeItem("session");
-    
+
 export const getSession = () => {
     const payload = sessionStorage.getItem("session");
-    return payload ? JSON.parse(payload) : null;
+    return payload ? JSON.parse(payload) : {};
 };
 
 export const saveSession = session => {

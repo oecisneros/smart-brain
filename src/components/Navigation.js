@@ -8,12 +8,12 @@ const Navigation = (props) => {
         return (
             <nav className="nav">
                 <p
-                    onClick={() => props.onRouteChange("signin")}
+                    onClick={props.onRouteChange.close("signin")}
                     className="f3 link dim black underline pa3 pointer">
                     Sign In
                 </p>
                 <p
-                    onClick={() => props.onRouteChange("register")}
+                    onClick={props.onRouteChange.close("register")}
                     className="f3 link dim black underline pa3 pointer">
                     Register
                 </p>

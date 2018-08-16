@@ -11,6 +11,11 @@ class ProfileIcon extends PureComponent {
         };
     }
 
+    updateProfile = user =>
+        api.updateProfile(user)
+            .then(this.props.loadUser.close(user))
+            .catch(alert);
+
     showProfile = () => {
         const loadProfile = import("./Profile");
         createModal(loadProfile, {
@@ -18,11 +23,6 @@ class ProfileIcon extends PureComponent {
             updateProfile: this.updateProfile
         });
     };
-
-    updateProfile = data =>
-        api.updateProfile(data)
-            .then(() => this.props.loadUser(data))
-            .catch(alert);
 
     signOut = () => {
         clearSession();

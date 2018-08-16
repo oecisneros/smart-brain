@@ -13,8 +13,8 @@ class Profile extends PureComponent {
     }
 
     onSubmit = () => {
-        const data = { ...this.props.user, ...this.state };
-        this.props.updateProfile(data);
+        const user = { ...this.props.user, ...this.state };
+        this.props.updateProfile(user);
     };
 
     render = () =>

@@ -12,7 +12,7 @@ import * as api from "../core/smart-brain-api";
 
 const initialState = {
   imageSource: "",
-  box: {},
+  boxes: [],
   route: "signin",
   isSigned: false,
   user: {
@@ -33,19 +33,19 @@ class App extends Component {
   loadUser = user => this.setState({ user });
 
   onPredict = () => {
-    const calculateRegions = box => {
+    const calculateRegions = boxes => {
       const image = document.getElementById("inputImage");
       const [width, height] = [Number(image.width), Number(image.height)];
 
-      return {
+      return boxes.map(box => ({
         left: box.left * width,
         right: width - box.right * width,
         top: box.top * height,
         bottom: height - box.bottom * height
-      };
+      }));
     };
 
-    const displayBox = box => this.setState({ box });
+    const displayFaces = boxes => this.setState({ boxes });
 
     const updateState = entries => {
       if (entries) {
@@ -57,8 +57,8 @@ class App extends Component {
 
     api.predict(this.state.imageSource)
       .then(calculateRegions)
-      .then(displayBox)
-      .then(api.updateImage.bind(null, this.state.user.id))
+      .then(displayFaces)
+      .then(api.updateImage.close(this.state.user.id))
       .then(updateState)
       .catch(alert);
   };
@@ -108,7 +108,7 @@ class App extends Component {
               />
               <ImageForm click={this.onPredict} textChanged={onPropertyChange(this, "imageSource")} />
               <FaceRecognition
-                box={this.state.box}
+                boxes={this.state.boxes}
                 source={this.state.imageSource}
               />
             </div>

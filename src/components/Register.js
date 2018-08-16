@@ -3,8 +3,8 @@ import { onPropertyChange } from "../core/common";
 import * as api from "../core/smart-brain-api";
 
 class Register extends Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
             email: "",
             password: "",

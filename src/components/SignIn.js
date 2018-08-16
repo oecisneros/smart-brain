@@ -3,8 +3,8 @@ import { onPropertyChange, getSession, saveSession } from "../core/common";
 import * as api from "../core/smart-brain-api";
 
 class SignIn extends Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
             email: "",
             password: ""
@@ -15,7 +15,7 @@ class SignIn extends Component {
 
     loadUserFromSession = () => {
         const session = getSession();
-        if (session && session.id) {
+        if (session.id) {
             api.getProfile(session.id)
                 .then(user => {
                     if (user && user.id) {
