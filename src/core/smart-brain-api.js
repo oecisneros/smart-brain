@@ -12,7 +12,7 @@ const handleResponse = response => {
     return promise;
 };
 
-export const fetchJson = (url, request, method = "POST") => {
+const fetchJson = (url, request, method = "POST") => {
     const session = getSession() || {};
     const requestData = {
         method: method,
@@ -26,17 +26,17 @@ export const fetchJson = (url, request, method = "POST") => {
         requestData.body = JSON.stringify(request);
     }
 
-    return fetch(url, requestData).then(handleResponse);
+    return fetch(`${apiUrl}/${url}`, requestData).then(handleResponse);
 };
 
-export const predict = imageUrl => fetchJson(`${apiUrl}/predict`, { input: imageUrl });
+export const predict = imageUrl => fetchJson("predict", { input: imageUrl });
 
-export const registerUser = user => fetchJson(`${apiUrl}/register`, user);
+export const registerUser = user => fetchJson("register", user);
 
-export const signIn = credentials => fetchJson(`${apiUrl}/signin`, credentials);
+export const signIn = credentials => fetchJson("signin", credentials);
 
-export const updateImage = id => fetchJson(`${apiUrl}/image`, { id }, "PUT");
+export const updateImage = id => fetchJson("image", { id }, "PUT");
 
-export const getProfile = id => fetchJson(`${apiUrl}/profile/${id}`, null, "GET");
+export const getProfile = id => fetchJson(`profile/${id}`, null, "GET");
 
-export const updateProfile = profile => fetchJson(`${apiUrl}/profile/${profile.id}`, { inputForm: profile }, "PUT");
+export const updateProfile = profile => fetchJson(`profile/${profile.id}`, { inputForm: profile }, "PUT");

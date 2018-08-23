@@ -7,7 +7,7 @@ const Box = ({ box }) =>
     />;
 
 const FaceRecognition = ({ source, boxes }) => (
-    <div className="center ma">
+    <div className="row justify-content-sm-center">
         <div className="absolute mt2">
             <img
                 id="inputImage"

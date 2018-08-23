@@ -12,13 +12,13 @@ class Profile extends PureComponent {
         };
     }
 
-    onSubmit = () => {
+    updateProfile = () => {
         const user = { ...this.props.user, ...this.state };
         this.props.updateProfile(user);
     };
 
     render = () =>
-        <AppModal onAccept={this.onSubmit}>
+        <AppModal onAccept={this.updateProfile}>
             <article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
                 <main className="pa4 black-80 w-80">
                     <img

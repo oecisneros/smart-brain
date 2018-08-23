@@ -4,16 +4,16 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { pipe } from "../core/common"
 
 class AppModal extends PureComponent {
-    accept = pipe.close(this.props.onAccept, this.close);
-
     close = () => {
         const root = document.getElementById('modal-root');
         ReactDOM.unmountComponentAtNode(root);
     };
 
+    accept = pipe(this.props.onAccept, this.close);
+
     render = () =>
         <div>
-            <Modal isOpen={true} toggle={this.close} className={this.props.className} backdrop="static">
+            <Modal isOpen={true} toggle={this.close} backdrop="static">
                 <ModalHeader toggle={this.close}>Smart-Brain</ModalHeader>
                 <ModalBody>
                     {this.props.children}

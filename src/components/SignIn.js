@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { onPropertyChange, getSession, saveSession } from "../core/common";
 import * as api from "../core/smart-brain-api";
+import * as modal from "../core/modal";
 
 class SignIn extends Component {
     constructor() {
@@ -13,7 +14,7 @@ class SignIn extends Component {
 
     componentDidMount = () => this.loadUserFromSession();
 
-    loadUserFromSession = () => {
+    loadUserFromSession = () => {        
         const session = getSession();
         if (session.id) {
             api.getProfile(session.id)
@@ -23,11 +24,11 @@ class SignIn extends Component {
                         this.props.onRouteChange("home");
                     }
                 })
-                .catch(alert);
+                .catch(modal.alert);
         }
     };
 
-    onSignIn = () => {
+    signIn = () => {
         const credentials = {
             email: this.state.email,
             password: this.state.password
@@ -40,7 +41,7 @@ class SignIn extends Component {
                     this.loadUserFromSession();
                 }
             })
-            .catch(alert);
+            .catch(modal.alert);
     };
 
     render = () => (
@@ -85,7 +86,7 @@ class SignIn extends Component {
                             className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
                             type="submit"
                             value="Sign in"
-                            onClick={this.onSignIn}
+                            onClick={this.signIn}
                         />
                     </div>
                 </div>

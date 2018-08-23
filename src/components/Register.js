@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { onPropertyChange } from "../core/common";
 import * as api from "../core/smart-brain-api";
+import * as modal from "../core/modal";
 
 class Register extends Component {
     constructor() {
@@ -12,7 +13,7 @@ class Register extends Component {
         };
     }
 
-    onRegister = () => {
+    register = () => {
         const userInfo = {
             email: this.state.email,
             password: this.state.password,
@@ -21,12 +22,12 @@ class Register extends Component {
 
         api.registerUser(userInfo)
             .then(user => {                
-                if (user.id) {
+                if (user && user.id) {
                     this.props.loadUser(user);
                     this.props.onRouteChange("home");
                 }
             })
-            .catch(alert);
+            .catch(modal.alert);
     };
 
     render = () => (
@@ -83,7 +84,7 @@ class Register extends Component {
                             className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
                             type="submit"
                             value="Register"
-                            onClick={this.onRegister}
+                            onClick={this.register}
                         />
                     </div>
                 </div>

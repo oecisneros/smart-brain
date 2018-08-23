@@ -1,7 +1,8 @@
 import React, { PureComponent } from "react";
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { clearSession, createModal } from "../core/common";
+import { clearSession } from "../core/common";
 import * as api from "../core/smart-brain-api";
+import * as modal from "../core/modal";
 
 class ProfileIcon extends PureComponent {
     constructor() {
@@ -14,11 +15,11 @@ class ProfileIcon extends PureComponent {
     updateProfile = user =>
         api.updateProfile(user)
             .then(this.props.loadUser.close(user))
-            .catch(alert);
+            .catch(modal.alert);
 
     showProfile = () => {
         const loadProfile = import("./Profile");
-        createModal(loadProfile, {
+        modal.createModal(loadProfile, {
             user: this.props.user,
             updateProfile: this.updateProfile
         });
